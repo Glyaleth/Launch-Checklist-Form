@@ -1,5 +1,22 @@
 // Write your JavaScript code here!
 window.addEventListener("load", function(){
+  fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response){
+    response.json().then(function(json){
+      let jsonObj = json;
+      let rand = Math.floor(Math.random() * jsonObj.length);
+      const div = document.getElementById("missionTarget")
+      div.innerHTML +=
+      `<h2>Mission Destination</h2>
+        <ol>
+           <li>Name: ${jsonObj[rand].name}</li>
+           <li>Diameter: ${jsonObj[rand].diameter}</li>
+           <li>Star: ${jsonObj[rand].star}</li>
+           <li>Distance from Earth: ${jsonObj[rand].distance}</li>
+           <li>Number of Moons: ${jsonObj[rand].moons}</li>
+        </ol>
+      <img src="${jsonObj[rand].image}">`
+    })
+  });
   let form = document.querySelector("form");
   form.addEventListener("submit", function(event) {
     let pilotName = document.querySelector("input[name=pilotName]");
@@ -24,20 +41,30 @@ window.addEventListener("load", function(){
       document.getElementById("launchStatus").style.color = "red";
       faultyItems.style.visibility = "visible"
       if(fuelLevel.value < 10000 && cargoMass.value > 10000){
-        document.getElementById("fuelStatus").innerHTML = "We do not have enough fuel.";
-        document.getElementById("cargoStatus").innerHTML = "We've got way too much cargo.";
+        document.getElementById("fuelStatus").innerHTML = "We do not have enough fuel";
+        document.getElementById("cargoStatus").innerHTML = "We've got way too much cargo";
       }
-      else if(fuelLevel.value > 10000 && cargoMass.value > 10000)
-        document.getElementById("cargoStatus").innerHTML = "We've got way too much cargo.";
-      else if (fuelLevel.value < 10000 && cargoMass.value < 10000)
-        document.getElementById("fuelStatus").innerHTML = "We do not have enough fuel.";
+      else if(fuelLevel.value > 10000 && cargoMass.value > 10000){
+        document.getElementById("fuelStatus").innerHTML = "Fuel level high enough for launch";
+        document.getElementById("cargoStatus").innerHTML = "We've got way too much cargo";
+      }
+      else if (fuelLevel.value < 10000 && cargoMass.value < 10000){
+        document.getElementById("fuelStatus").innerHTML = "We do not have enough fuel";
+        document.getElementById("cargoStatus").innerHTML = "Cargo mass low enough for launch";
+      }
+
     }else{
       event.preventDefault();
       document.getElementById("launchStatus").innerHTML = "Shuttle is Ready for Liftoff"
+      document.getElementById("fuelStatus").innerHTML = "Fuel level high enough for launch";
+      document.getElementById("cargoStatus").innerHTML = "Cargo mass low enough for launch";
       document.getElementById("launchStatus").style.color = "green";
       faultyItems.style.visibility = "visible"
     }
+
+
   });
+
 
 });
 
