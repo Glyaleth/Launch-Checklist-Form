@@ -6,7 +6,8 @@ window.addEventListener("load", function(){
       let rand = Math.floor(Math.random() * jsonObj.length);
       const div = document.getElementById("missionTarget")
       div.innerHTML +=
-      `<h2>Mission Destination</h2>
+      `
+      <h2 >Mission Destination</h2>
         <ol>
            <li>Name: ${jsonObj[rand].name}</li>
            <li>Diameter: ${jsonObj[rand].diameter}</li>
